@@ -18,6 +18,10 @@
       {
         "command": "codeclarity.explainCode",
         "title": "CodeClarity: Explain Selected Code"
+      },
+      {
+        "command": "codeclarity.configureApiKey",
+        "title": "CodeClarity: Configure API Key"
       }
     ]
   },
@@ -29,7 +33,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "24.x",
-    "@types/vscode": "^1.145.0",
+    "@types/vscode": "^1.144.0",
     "@vscode/test-cli": "^0.0.15",
     "@vscode/test-electron": "^3.0.0",
     "eslint": "^10.5.0",
@@ -40,7 +44,6 @@
     "serialize-javascript": "^7.0.6"
   },
   "dependencies": {
-    "dotenv": "^18.0.9",
     "groq-sdk": "^1.6.0"
   }
 }

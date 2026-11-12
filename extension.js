@@ -1,22 +1,42 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
-const vscode = require('vscode');
-const dotenv = require("dotenv");
-const path = require("path");
 
-dotenv.config({
-    path: path.join(__dirname, ".env")
-});
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
+const vscode = require('vscode');
 
 /**
  * @param {vscode.ExtensionContext} context
  */
 async function activate(context) {
-    const Groq = (await import("groq-sdk")).default;
-    const apiKey = process.env.GROQ_API_KEY;
 
+	const Groq = (await import("groq-sdk")).default;
+
+    let apiKey = await context.secrets.get("groqApiKey");
+
+	const configureKey = vscode.commands.registerCommand(
+    'codeclarity.configureApiKey',
+		async () => {
+			const key = await vscode.window.showInputBox({
+				prompt: 'Enter your Groq API key',
+				password: true,
+				ignoreFocusOut: true
+			});
+
+			if (!key) {
+				return;
+			}
+
+			await context.secrets.store('groqApiKey', key.trim());
+			apiKey = key.trim();
+
+			vscode.window.showInformationMessage(
+				'CodeClarity: Groq API key saved securely!'
+			);
+		}
+	);
+
+	context.subscriptions.push(configureKey);
 
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
